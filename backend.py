@@ -28,7 +28,7 @@ def generate_content(prompt: str, json_mode: bool = False):
             response = client.models.generate_content(
                 model=MODEL,
                 contents=prompt,
-                generation_config={"response_mime_type": "application/json"}
+                config={"response_mime_type": "application/json"}
             )
         else:
             response = client.models.generate_content(
