@@ -2,14 +2,23 @@ import json
 import os
 import re
 import time
+import streamlit as st
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-# Load environment variables from .env
+# Load environment variables from .env (for local development)
 load_dotenv()
 
-# Initialize Gemini
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Initialize Gemini - try Streamlit secrets first (cloud), then .env (local)
+try:
+    api_key = st.secrets.get("GEMINI_API_KEY")
+except:
+    api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    raise ValueError("GEMINI_API_KEY not found in secrets or .env")
+
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 SUPPORTED_INTENTS = {
@@ -108,11 +117,11 @@ def analyze_data(text):
 
 def anomaly_detection(text):
     prompt = f"Check this input for any anomalies, suspicious patterns, or outliers. Return JSON with 'is_anomaly' (boolean) and 'findings'.\n\nInput: {text}"
-    response = model.generate_content(
-        prompt,
-        generation_config={"response_mime_type": "application/json"}
-    )
     try:
+        response = model.generate_content(
+            prompt,
+            generation_config={"response_mime_type": "application/json"}
+        )
         return safe_json_parse(response.text)
     except Exception as e:
         return {"error": "Anomaly detection failed", "reason": str(e)}
@@ -139,8 +148,11 @@ def generate_code(text):
         "Return only the code block without extra explanation.\n\n"
         f"{text}"
     )
-    response = model.generate_content(prompt)
-    return response.text.strip()
+    try:
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except Exception as e:
+        return f"Error generating code: {str(e)}"
 
 
 def web_search(text):
