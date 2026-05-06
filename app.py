@@ -35,6 +35,17 @@ st.markdown("---")
 with st.sidebar:
     st.header("System Status")
     st.info("Pipeline: Active")
+    
+    # Debug: API Key status
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+    api_key = os.getenv("GEMINI_API_KEY")
+    if api_key:
+        st.success(f"✓ Gemini API Key loaded ({len(api_key)} chars)")
+    else:
+        st.error("✗ Gemini API Key NOT found. Check .env file.")
+    
     if st.button("Clear Memory"):
         backend.memory.clear()
         st.success("Memory cleared!")
