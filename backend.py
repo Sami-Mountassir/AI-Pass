@@ -58,26 +58,20 @@ def normalize_intent(intent):
 
 def classify_task(user_input, context=None):
     prompt = """
-Classify this request into one of:
-summarize, sentiment, analyze, anomaly_detection, decision, translate, generate_code, web_search, unknown
+Classify this request into one of these intents:
+summarize, sentiment, analyze, anomaly_detection, decision, translate, generate_code, web_search
 
-Return ONLY valid JSON:
-{
-  "intent": "...",
-  "confidence": 0.0
-}
+Return ONLY a JSON object like this:
+{"intent": "summarize", "confidence": 0.95}
 
-If you are unsure or the request is irrelevant, use "unknown".
+If unsure, use "unknown" with low confidence.
 """
     if context:
         prompt += f"\nContext:\n{context}\n"
-    prompt += f"\nInput: {user_input}"
+    prompt += f"\nRequest: {user_input}"
 
     try:
-        response = model.generate_content(
-            prompt,
-            generation_config={"response_mime_type": "application/json"}
-        )
+        response = model.generate_content(prompt)
         result = safe_json_parse(response.text)
         return {
             "intent": normalize_intent(result.get("intent", "unknown")),
@@ -94,10 +88,7 @@ def summarize(text):
 def sentiment(text):
     prompt = f"Analyze the sentiment of this text. Return JSON with 'sentiment' (positive/negative/neutral) and 'reason'.\n\nText: {text}"
     try:
-        response = model.generate_content(
-            prompt,
-            generation_config={"response_mime_type": "application/json"}
-        )
+        response = model.generate_content(prompt)
         return safe_json_parse(response.text)
     except Exception as e:
         return {"error": "Sentiment analysis failed", "reason": str(e)}
@@ -118,10 +109,7 @@ def analyze_data(text):
 def anomaly_detection(text):
     prompt = f"Check this input for any anomalies, suspicious patterns, or outliers. Return JSON with 'is_anomaly' (boolean) and 'findings'.\n\nInput: {text}"
     try:
-        response = model.generate_content(
-            prompt,
-            generation_config={"response_mime_type": "application/json"}
-        )
+        response = model.generate_content(prompt)
         return safe_json_parse(response.text)
     except Exception as e:
         return {"error": "Anomaly detection failed", "reason": str(e)}

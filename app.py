@@ -35,16 +35,22 @@ st.markdown("---")
 with st.sidebar:
     st.header("System Status")
     st.info("Pipeline: Active")
-    
+
     # Debug: API Key status
     import os
     from dotenv import load_dotenv
+    import streamlit as st
     load_dotenv()
-    api_key = os.getenv("GEMINI_API_KEY")
+
+    try:
+        api_key = st.secrets.get("GEMINI_API_KEY")
+    except:
+        api_key = os.getenv("GEMINI_API_KEY")
+
     if api_key:
         st.success(f"✓ Gemini API Key loaded ({len(api_key)} chars)")
     else:
-        st.error("✗ Gemini API Key NOT found. Create .env with GEMINI_API_KEY=your_key")
+        st.error("✗ Gemini API Key NOT found. Add to Streamlit Secrets or .env")
     
     if st.button("Clear Memory"):
         backend.memory.clear()
@@ -97,6 +103,8 @@ if st.button("Run System Pipeline", use_container_width=True):
                 intent = response.get("intent")
                 if intent == "unknown":
                     st.warning("Couldn't understand that request. Try rephrasing.")
+                    if "error" in response:
+                        st.error(f"Debug - Error: {response['error']}")
                     st.stop()
 
                 result = response.get("result")
