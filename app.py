@@ -103,8 +103,9 @@ if st.button("Run System Pipeline", use_container_width=True):
                 intent = response.get("intent")
                 if intent == "unknown":
                     st.warning("Couldn't understand that request. Try rephrasing.")
-                    if "error" in response:
-                        st.error(f"Debug - Error: {response['error']}")
+                    error = response.get("error")
+                    if error:
+                        st.error(f"Error Details: {error}")
                     st.stop()
 
                 result = response.get("result")

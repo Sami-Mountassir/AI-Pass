@@ -72,12 +72,14 @@ If unsure, use "unknown" with low confidence.
 
     try:
         response = model.generate_content(prompt)
+        print(f"DEBUG - Raw API Response: {response.text}")  # Debug log
         result = safe_json_parse(response.text)
         return {
             "intent": normalize_intent(result.get("intent", "unknown")),
             "confidence": float(result.get("confidence", 0) or 0)
         }
     except Exception as e:
+        print(f"DEBUG - classify_task error: {str(e)}")  # Debug log
         return {"intent": "unknown", "confidence": 0, "error": str(e)}
 
 def summarize(text):
