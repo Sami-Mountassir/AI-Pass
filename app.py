@@ -39,18 +39,19 @@ with st.sidebar:
     # Debug: API Key status
     import os
     from dotenv import load_dotenv
-    import streamlit as st
     load_dotenv()
 
-    try:
-        api_key = st.secrets.get("GEMINI_API_KEY")
-    except:
+    if "GEMINI_API_KEY" in st.secrets:
+        api_key = st.secrets["GEMINI_API_KEY"]
+        source = "Streamlit Secrets"
+    else:
         api_key = os.getenv("GEMINI_API_KEY")
+        source = ".env"
 
     if api_key:
-        st.success(f"✓ Gemini API Key loaded ({len(api_key)} chars)")
+        st.success(f"✓ Gemini API Key loaded from {source}")
     else:
-        st.error("✗ Gemini API Key NOT found. Add to Streamlit Secrets or .env")
+        st.error("✗ No Gemini API Key found!")
     
     if st.button("Clear Memory"):
         backend.memory.clear()
