@@ -44,7 +44,7 @@ with st.sidebar:
     if api_key:
         st.success(f"✓ Gemini API Key loaded ({len(api_key)} chars)")
     else:
-        st.error("✗ Gemini API Key NOT found. Check .env file.")
+        st.error("✗ Gemini API Key NOT found. Create .env with GEMINI_API_KEY=your_key")
     
     if st.button("Clear Memory"):
         backend.memory.clear()
