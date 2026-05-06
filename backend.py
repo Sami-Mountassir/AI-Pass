@@ -3,7 +3,7 @@ import os
 import re
 import time
 import streamlit as st
-from google import genai
+import google.genai as genai
 from dotenv import load_dotenv
 
 # Load environment variables from .env (for local development)
