@@ -3,7 +3,7 @@ import os
 import re
 import time
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
 # Load environment variables from .env (for local development)
@@ -18,8 +18,8 @@ except:
 if not api_key:
     raise ValueError("GEMINI_API_KEY not found in secrets or .env")
 
-genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-1.5-flash')
+client = genai.Client(api_key=api_key)
+model = "gemini-1.5-flash"
 
 SUPPORTED_INTENTS = {
     'summarize',
@@ -71,26 +71,26 @@ If unsure, use "unknown" with low confidence.
     prompt += f"\nRequest: {user_input}"
 
     try:
-        response = model.generate_content(prompt)
-        print(f"DEBUG - Raw API Response: {response.text}")  # Debug log
+        response = client.models.generate_content(model=model, contents=prompt)
+        print(f"DEBUG - Raw API Response: {response.text}")
         result = safe_json_parse(response.text)
         return {
             "intent": normalize_intent(result.get("intent", "unknown")),
             "confidence": float(result.get("confidence", 0) or 0)
         }
     except Exception as e:
-        print(f"DEBUG - classify_task error: {str(e)}")  # Debug log
+        print(f"DEBUG - classify_task error: {str(e)}")
         return {"intent": "unknown", "confidence": 0, "error": str(e)}
 
 def summarize(text):
     prompt = f"Summarize this text in 2-3 sentences:\n\n{text}"
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(model=model, contents=prompt)
     return response.text
 
 def sentiment(text):
     prompt = f"Analyze the sentiment of this text. Return JSON with 'sentiment' (positive/negative/neutral) and 'reason'.\n\nText: {text}"
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(model=model, contents=prompt)
         return safe_json_parse(response.text)
     except Exception as e:
         return {"error": "Sentiment analysis failed", "reason": str(e)}
@@ -111,14 +111,14 @@ def analyze_data(text):
 def anomaly_detection(text):
     prompt = f"Check this input for any anomalies, suspicious patterns, or outliers. Return JSON with 'is_anomaly' (boolean) and 'findings'.\n\nInput: {text}"
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(model=model, contents=prompt)
         return safe_json_parse(response.text)
     except Exception as e:
         return {"error": "Anomaly detection failed", "reason": str(e)}
 
 def decision(text):
     prompt = f"Based on the following information, provide a clear recommendation or decision with a brief justification:\n\n{text}"
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(model=model, contents=prompt)
     return response.text
 
 
@@ -128,7 +128,7 @@ def translate(text):
         "return a fluent English version only.\n\n"
         f"{text}"
     )
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(model=model, contents=prompt)
     return response.text.strip()
 
 
@@ -139,7 +139,7 @@ def generate_code(text):
         f"{text}"
     )
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(model=model, contents=prompt)
         return response.text.strip()
     except Exception as e:
         return f"Error generating code: {str(e)}"
@@ -152,7 +152,7 @@ def web_search(text):
         "Do not fabricate sources.\n\n"
         f"Query: {text}"
     )
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(model=model, contents=prompt)
     return response.text.strip()
 
 class LongTermMemory:
