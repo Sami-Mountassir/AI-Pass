@@ -20,7 +20,7 @@ if not api_key:
 import google.genai as genai
 
 client = genai.Client(api_key=api_key)
-MODEL = "gemini-1.5-flash"
+MODEL = "gemini-2.5-flash"
 
 def generate_content(prompt: str, json_mode: bool = False):
     try:
