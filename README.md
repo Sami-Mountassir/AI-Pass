@@ -78,3 +78,15 @@ AI-Pass leverages the best of both worlds:
 2. Install dependencies: `pip install -r requirements.txt`.
 3. Create a `.env` file with `GEMINI_API_KEY=your_key`.
 4. Run: `streamlit run app.py`.
+
+---
+
+## 🌐 Deploy on Streamlit Cloud
+1. Push your code to GitHub.
+2. Go to [Streamlit Cloud](https://share.streamlit.io) and sign in with your GitHub account.
+3. Click **New app** → Select your repository and branch (main).
+4. Choose `app.py` as the main file.
+5. In **Advanced settings**, add your `GEMINI_API_KEY` as a secret:
+   - Click **Advanced settings** → **Secrets**
+   - Add: `GEMINI_API_KEY = your_actual_key_here`
+6. Deploy! The app will be live at `https://your-username-ai-pass.streamlit.app`
