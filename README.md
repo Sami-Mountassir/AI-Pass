@@ -3,7 +3,7 @@
 A comprehensive, context-aware autonomous agent powered by Google Gemini 2.5 Flash. AI-Pass classifies user intent, maintains conversational memory, and executes specialized modules for text, data, and code.
 
 ## 🚀 Live Link & Repository
-- **Live App:** https://sami-mountassir-ai-pass.streamlit.app
+- **Live App:** https://ai-pass-ugtw6atab54vvan8gn3fxj.streamlit.app/
 - **GitHub Repo:** https://github.com/Sami-Mountassir/AI-Pass
 
 ---
@@ -65,28 +65,3 @@ AI-Pass leverages the best of both worlds:
 - Enhanced CSV and PDF upload support with file previews and structured extraction.
 - Added a simple persistent memory store in `memory_store.json` as a stepping stone to vector search.
 
-## 📈 Future Improvements
-1.  **Vector Database Integration**: Replace the simple keyword-based memory search with a RAG system for long-term project memory.
-2.  **Live Web Search**: Integrate a real search API for actual browsing results.
-3.  **Multi-File Batching**: Enable simultaneous analysis of multiple uploaded documents.
-4.  **User Authentication**: Add secure login for personalized task history.
-
----
-
-## 🛠️ Local Setup
-1. Clone the repo.
-2. Install dependencies: `pip install -r requirements.txt`.
-3. Create a `.env` file with `GEMINI_API_KEY=your_key`.
-4. Run: `streamlit run app.py`.
-
----
-
-## 🌐 Deploy on Streamlit Cloud
-1. Push your code to GitHub.
-2. Go to [Streamlit Cloud](https://share.streamlit.io) and sign in with your GitHub account.
-3. Click **New app** → Select your repository and branch (main).
-4. Choose `app.py` as the main file.
-5. In **Advanced settings**, add your `GEMINI_API_KEY` as a secret:
-   - Click **Advanced settings** → **Secrets**
-   - Add: `GEMINI_API_KEY = your_actual_key_here`
-6. Deploy! The app will be live at `https://your-username-ai-pass.streamlit.app`
