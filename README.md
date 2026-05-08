@@ -64,4 +64,3 @@ AI-Pass leverages the best of both worlds:
 - Improved backend error handling and JSON parsing for safer Gemini responses.
 - Enhanced CSV and PDF upload support with file previews and structured extraction.
 - Added a simple persistent memory store in `memory_store.json` as a stepping stone to vector search.
-
