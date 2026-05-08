@@ -1,10 +1,10 @@
 # AI-Pass: Autonomous Task Agent
 
-A comprehensive, context-aware autonomous agent powered by Google Gemini 1.5 Flash. AI-Pass classifies user intent, maintains conversational memory, and executes specialized modules for text, data, and code.
+A comprehensive, context-aware autonomous agent powered by Google Gemini 2.5 Flash. AI-Pass classifies user intent, maintains conversational memory, and executes specialized modules for text, data, and code.
 
 ## 🚀 Live Link & Repository
-- **Live App:** :
-- **GitHub Repo:** :
+- **Live App:** https://sami-mountassir-ai-pass.streamlit.app
+- **GitHub Repo:** https://github.com/Sami-Mountassir/AI-Pass
 
 ---
 
@@ -20,7 +20,7 @@ AI-Pass follows a **Modular Pipeline Architecture** consisting of three main lay
 ---
 
 ## 🧠 How the System Understands Tasks
-The system uses **Few-Shot Intent Classification**. When a user provides input, the "Manager" (Gemini 1.5 Flash) analyzes the text against a schema of 8 supported intents.
+The system uses **Few-Shot Intent Classification**. When a user provides input, the "Manager" (Gemini 2.5 Flash) analyzes the text against a schema of 8 supported intents.
 
 Instead of returning a conversational response immediately, the LLM is forced to output a **Structured JSON Object**:
 ```json
