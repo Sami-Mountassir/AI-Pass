@@ -3,7 +3,7 @@
 A comprehensive, context-aware autonomous agent powered by Google Gemini 2.5 Flash. AI-Pass classifies user intent, maintains conversational memory, and executes specialized modules for text, data, and code.
 
 ## 🚀 Live Link & Repository
-- **Live App:** https://sami-mountassir-ai-pass.streamlit.app
+- **Live App:** https://ai-pass-ugtw6atab54vvan8gn3fxj.streamlit.app/
 - **GitHub Repo:** https://github.com/Sami-Mountassir/AI-Pass
 
 ---
